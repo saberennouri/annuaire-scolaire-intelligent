@@ -1,0 +1,392 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Annuaire scolaire Sfax 2</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Noto+Kufi+Arabic:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky search bar over a responsive grid of contact cards; one segmented tab per document section. */
+:root{
+  --bg:#f2f5f8; --surface:#ffffff; --surface-2:#e9eef3; --ink:#13202b; --muted:#566878; --line:#d8e0e8;
+  --accent:#a6212a; --accent-ink:#ffffff; --accent-soft:#f6e3e4;
+  --lycee:#0e6b73; --lycee-soft:#d9eef0; --college:#8a5a00; --college-soft:#f6ead0; --prive:#6b3f8f; --prive-soft:#ece1f4;
+  --warn:#9a4b00; --warn-soft:#fbe9d5; --focus:#1a5fd0;
+  --font-ui:'IBM Plex Sans Arabic','Segoe UI',Tahoma,system-ui,sans-serif;
+  --font-head:'Noto Kufi Arabic','IBM Plex Sans Arabic','Segoe UI',system-ui,sans-serif;
+  --font-num:'IBM Plex Mono',ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e151c; --surface:#16202a; --surface-2:#1f2c38; --ink:#e7edf2; --muted:#9fb0bf; --line:#2a3947;
+  --accent:#ef6a70; --accent-ink:#1b0a0b; --accent-soft:#3a1d20;
+  --lycee:#5cc7cf; --lycee-soft:#12343a; --college:#e3b254; --college-soft:#3a2d10; --prive:#c9a0ea; --prive-soft:#2e1f3c;
+  --warn:#f0a867; --warn-soft:#3b2512; --focus:#7aa7ff; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e151c; --surface:#16202a; --surface-2:#1f2c38; --ink:#e7edf2; --muted:#9fb0bf; --line:#2a3947;
+  --accent:#ef6a70; --accent-ink:#1b0a0b; --accent-soft:#3a1d20;
+  --lycee:#5cc7cf; --lycee-soft:#12343a; --college:#e3b254; --college-soft:#3a2d10; --prive:#c9a0ea; --prive-soft:#2e1f3c;
+  --warn:#f0a867; --warn-soft:#3b2512; --focus:#7aa7ff; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.5 var(--font-ui);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 40px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1180px;margin:0 auto}
+
+.top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:22px 0 14px;flex-wrap:wrap}
+.top h1{font:700 clamp(21px,4.2vw,30px)/1.2 var(--font-head);margin:0;text-wrap:balance}
+.top p{margin:6px 0 0;color:var(--muted);max-width:62ch;font-size:14px}
+.tools{display:flex;gap:8px}
+.tbtn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 12px;cursor:pointer;min-height:36px;font-weight:500}
+.tbtn:hover{background:var(--surface-2)}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);padding:8px 0 10px}
+.search{position:relative}
+.search input{width:100%;height:50px;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;
+  padding-inline:46px 14px;font-size:16px}
+.search input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.search svg{position:absolute;inset-inline-start:15px;top:50%;translate:0 -50%;color:var(--muted);pointer-events:none}
+.clear{position:absolute;inset-inline-end:8px;top:50%;translate:0 -50%;border:0;background:var(--surface-2);border-radius:999px;width:30px;height:30px;cursor:pointer;color:var(--muted)}
+
+.tabs{display:flex;gap:6px;margin-top:10px;overflow-x:auto;scrollbar-width:thin;padding-bottom:2px}
+.tab{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 14px;cursor:pointer;
+  display:flex;align-items:center;gap:8px;font-weight:500;white-space:nowrap}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab .n{font:500 12px var(--font-num);background:var(--surface-2);color:var(--muted);border-radius:999px;padding:1px 8px;min-width:26px;text-align:center}
+.tab[aria-selected="true"] .n{background:color-mix(in srgb,var(--bg) 22%,transparent);color:var(--bg)}
+.tab .n.zero{opacity:.55}
+
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 4px}
+.chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:4px 12px;cursor:pointer;font-size:13.5px;display:inline-flex;gap:6px;align-items:center}
+.chip:hover{background:var(--surface-2)}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.chip .c{font:500 11.5px var(--font-num);opacity:.75}
+.chip small{color:inherit;opacity:.75;font-size:12px}
+
+.meta{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:10px 0 12px;color:var(--muted);font-size:13.5px;flex-wrap:wrap}
+.hint{background:var(--accent-soft);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:14px}
+.hint button{border:0;background:none;color:var(--accent);font-weight:600;cursor:pointer;text-decoration:underline;padding:0 2px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.ch{display:flex;gap:10px;align-items:flex-start}
+.num{font:500 12px var(--font-num);color:var(--muted);background:var(--surface-2);border-radius:6px;padding:2px 7px;margin-top:3px;flex:none}
+.card h3{font:600 16.5px/1.45 var(--font-head);margin:0;flex:1;min-width:0;overflow-wrap:anywhere;text-wrap:balance}
+.star{border:0;background:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:8px;flex:none;line-height:0}
+.star[aria-pressed="true"]{color:#d49a00}
+.star[aria-pressed="true"] svg{fill:currentColor}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:12px;font-weight:500;border-radius:6px;padding:2px 8px;background:var(--surface-2);color:var(--muted)}
+.tag.lycee{background:var(--lycee-soft);color:var(--lycee)}
+.tag.college{background:var(--college-soft);color:var(--college)}
+.tag.private{background:var(--prive-soft);color:var(--prive)}
+.tag.warn{background:var(--warn-soft);color:var(--warn)}
+
+.rows{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
+.row{display:grid;grid-template-columns:minmax(92px,28%) 1fr;gap:4px 10px;align-items:start;border-top:1px dashed var(--line);padding-top:8px}
+.row:first-child{border-top:0;padding-top:0}
+.lab{font-size:12px;color:var(--muted);padding-top:3px;letter-spacing:.02em}
+.val{min-width:0;display:flex;flex-direction:column;gap:5px}
+.pname{font-weight:500;overflow-wrap:anywhere}
+.phs{display:flex;flex-wrap:wrap;gap:6px}
+.ph{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:8px;background:var(--bg);overflow:hidden}
+.ph a,.ph span.t{font:500 14px var(--font-num);padding:4px 9px;color:var(--ink);text-decoration:none;direction:ltr;unicode-bidi:isolate;letter-spacing:.01em}
+.ph a:hover{color:var(--accent);background:var(--accent-soft)}
+.ph.odd{border-style:dashed}
+.cp{border:0;border-inline-start:1px solid var(--line);background:none;cursor:pointer;padding:4px 7px;color:var(--muted);line-height:0;align-self:stretch;display:flex;align-items:center}
+.cp:hover{color:var(--accent);background:var(--accent-soft)}
+.mail{font:400 13.5px var(--font-num);direction:ltr;unicode-bidi:isolate;overflow-wrap:anywhere;display:inline-flex;gap:6px;align-items:center}
+.addr{font-size:14px;color:var(--ink)}
+.foot{display:flex;justify-content:flex-end}
+.copyall{border:1px solid var(--line);background:none;border-radius:8px;padding:4px 10px;font-size:13px;cursor:pointer;color:var(--muted)}
+.copyall:hover{background:var(--surface-2);color:var(--ink)}
+
+.empty{text-align:center;padding:48px 16px;color:var(--muted)}
+.empty b{display:block;color:var(--ink);font:600 18px var(--font-head);margin-bottom:6px}
+.empty button{margin-top:14px}
+.note{margin-top:28px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px;display:grid;gap:4px}
+.toast{position:fixed;inset-inline:0;bottom:max(18px,env(safe-area-inset-bottom,0px));margin-inline:auto;width:max-content;max-width:90vw;background:var(--ink);color:var(--bg);
+  padding:8px 16px;border-radius:999px;font-size:14px;opacity:0;translate:0 12px;transition:.18s;pointer-events:none;z-index:40}
+.toast.on{opacity:1;translate:0 0}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+@media (max-width:420px){.row{grid-template-columns:1fr}.lab{padding-top:0}}
+</style>
+
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1 id="h1"></h1>
+      <p id="sub"></p>
+    </div>
+    <div class="tools">
+      <button class="tbtn" id="lang" type="button"></button>
+      <button class="tbtn" id="theme" type="button"></button>
+    </div>
+  </div>
+
+  <div class="bar">
+    <div class="search">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" autocomplete="off" enterkeyhint="search" spellcheck="false">
+      <button class="clear" id="clr" type="button" hidden aria-label="Effacer">✕</button>
+    </div>
+    <div class="tabs" role="tablist" id="tabs"></div>
+  </div>
+
+  <div class="chips" id="chips"></div>
+  <div class="meta"><span id="count" aria-live="polite"></span><button class="chip" id="favbtn" type="button" aria-pressed="false"></button></div>
+  <div id="hint" class="hint" hidden></div>
+  <main class="grid" id="grid"></main>
+  <div class="note" id="note"></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script id="data" type="application/json">{"secondary":[{"n":1,"name":"م.إ. الحبيب الشعبوني بصفاقس","director":"هنيدة نجاح بن جامع","nazer":"","q1":"","q2":"","email":"C722114@gmail.com","landline":"74266767","mobiles":["99266874","24774836"],"type":"college"},{"n":2,"name":"م.إ. مصطفى السلامي بصفاقس","director":"بديع العبيدي","nazer":"","q1":"","q2":"","email":"C722115@gmail.com","landline":"74218444","mobiles":["97561294","29107053"],"type":"college"},{"n":3,"name":"معهد الحبيب ثامر بصفاقس","director":"محمد أنور الغريبي","nazer":"","q1":"درة العش","q2":"","email":"C722116@gmail.com","landline":"74267950","mobiles":["97750637"],"type":"lycee"},{"n":4,"name":"م.إ. ابن الهيثم بصفاقس","director":"عبد المجيد التومي","nazer":"","q1":"مكرم الشعري","q2":"عبد السلام الجوادي","email":"CL722117@gmail.com","landline":"74654611","mobiles":["97324522","98972684"],"type":"college"},{"n":5,"name":"م.إ. الإمام سحنون طريق قرمدة بصفاقس","director":"مراد الهرابي","nazer":"","q1":"الصادق بن حمودة","q2":"","email":"C722118@gmail.com","landline":"74658902","mobiles":["98926276","22272371"],"type":"college"},{"n":6,"name":"معهد قرمدة صفاقس","director":"رضوان زقروبة","nazer":"","q1":"حنان بوبكر","q2":"","email":"Ly722122@gmail.com","landline":"74607603","mobiles":["29725326"],"type":"lycee"},{"n":7,"name":"المدرسة الإعدادية العوابد","director":"عبد العزيز مقني","nazer":"","q1":"محمد العكرمي عمري","q2":"","email":"c722123@gmail.com","landline":"","mobiles":["96332755"],"type":"college"},{"n":8,"name":"م.إ. مركز علولو","director":"أيمن بوقشة","nazer":"","q1":"","q2":"","email":"clg722124@gmail.com","landline":"","mobiles":["29155978"],"type":"college"},{"n":9,"name":"معهد العوابد","director":"أسامة العفاس","nazer":"مالك بوعصيدة","q1":"يحيى الزايدي","q2":"","email":"lysa722125@gmail.com","landline":"","mobiles":["97307932","29138183"],"type":"lycee"},{"n":10,"name":"م.إ. بساقية الداير","director":"محمد التريكي","nazer":"","q1":"أمينة الفريخة","q2":"","email":"CL722201@gmail.com","landline":"74294963","mobiles":["97216481"],"type":"college"},{"n":11,"name":"م.إ. المنصورة طريق سيدي منصور","director":"محمد مهدي","nazer":"","q1":"رمزي عبودة","q2":"","email":"C722206@gmail.com","landline":"74878781","mobiles":["25217928"],"type":"college"},{"n":12,"name":"معهد الخليج طريق سيدي منصور بصفاقس","director":"أحمد بن نصر","nazer":"رفيق سلامة","q1":"سعاد عدالي","q2":"","email":"Ly722202@gmail.com","landline":"74872661","mobiles":["29555710"],"type":"lycee"},{"n":13,"name":"م.إ. بالسلطنية","director":"قيس بسباس","nazer":"","q1":"عزالدين أولاد محمد","q2":"","email":"C722203@gmail.com","landline":"74891346","mobiles":["28586486"],"type":"college"},{"n":14,"name":"م.إ. الصادق الفقي بساقية الداير","director":"وليد سالم","nazer":"","q1":"محمود عبد المقصود","q2":"","email":"L722204@gmail.com","landline":"74886489","mobiles":["99019995"],"type":"college"},{"n":15,"name":"م.إ. أحمد ملاك بصفاقس","director":"ناجح الزيادي","nazer":"","q1":"","q2":"","email":"CL722205@gmail.com","landline":"74258233","mobiles":["24749045"],"type":"college"},{"n":16,"name":"معهد الفاضل بن عاشور طريق المهدية ساقية الداير","director":"وليد دمق","nazer":"عبد المجيد بن عمر","q1":"نورة محمد","q2":"","email":"L722207@gmail.com","landline":"74832760","mobiles":["22464653"],"type":"lycee"},{"n":17,"name":"المدرسة الإعدادية المنارة طريق سيدي منصور بصفاقس","director":"محمد عبيد","nazer":"","q1":"","q2":"","email":"C722208@gmail.com","landline":"74873620","mobiles":["93568669"],"type":"college"},{"n":18,"name":"معهد السلطنية","director":"حمادي عبد المولاه","nazer":"عبير بوعتور","q1":"محرز الشيخ","q2":"","email":"lycee722209@gmail.com","landline":"","mobiles":["29242791","98663583"],"type":"lycee"},{"n":19,"name":"معهد المنجي سليم ساقية الزيت","director":"محمد الغريبي","nazer":"نجيب علوي","q1":"نعيمة العشي دباش","q2":"نير الميساوي","email":"Ly722317@gmail.com","landline":"74251514","mobiles":["97362117"],"type":"lycee"},{"n":20,"name":"المدرسة الإعدادية بالشيحية","director":"سامي هدريش","nazer":"","q1":"ناجي العبادي","q2":"","email":"C722318@gmail.com","landline":"74254255","mobiles":["22616210"],"type":"college"},{"n":21,"name":"معهد أبو القاسم الشابي بالشيحية","director":"مجيد بالكحلة","nazer":"يسري العروسي","q1":"هيام الفقي","q2":"","email":"Ly722319@gmail.com","landline":"74846089","mobiles":["46323909"],"type":"lycee"},{"n":22,"name":"م.إ. بساقية الزيت","director":"سامي الشريف","nazer":"","q1":"سليم الفريخة","q2":"","email":"clg722320@gmail.com","landline":"74255955","mobiles":["94800602"],"type":"college"},{"n":23,"name":"معهد 25 جويلية 1957 بصفاقس","director":"نبيل اليعقوبي","nazer":"أسماء معتوق","q1":"أيمن الهنتاتي","q2":"","email":"L722321@gmail.com","landline":"74232017","mobiles":["29725716"],"type":"lycee"},{"n":24,"name":"م.إ. حي الأنس طريق تونس ساقية الزيت","director":"بسام الرقيق","nazer":"","q1":"موسى نصيب","q2":"","email":"C722322@gmail.com","landline":"74861659","mobiles":["97267368"],"type":"college"},{"n":25,"name":"م.إ. مركز بوعصيدة بصفاقس","director":"صابر الكراي","nazer":"","q1":"سليم بن خالد","q2":"","email":"C722323@gmail.com","landline":"74232454","mobiles":["22670450"],"type":"college"},{"n":26,"name":"معهد ابن رشيق الأنس ساقية الزيت","director":"ناجي الفقي","nazer":"","q1":"سندس يعيش","q2":"","email":"L722324@gmail.com","landline":"74860777","mobiles":["29449489"],"type":"lycee"},{"n":27,"name":"م.إ. طريق تنيور بصفاقس","director":"أحمد الطريقي","nazer":"","q1":"محمد مواعدة","q2":"","email":"Col722325@gmail.com","landline":"74849002","mobiles":["97635703","29189371"],"type":"college"},{"n":28,"name":"المدرسة الإعدادية ابن منظور حي الأنس","director":"محمد عبد الجواد","nazer":"","q1":"هدى الشعري بن عمر","q2":"","email":"CL722326@gmail.com","landline":"74860104","mobiles":["29193036","97366996"],"type":"college"},{"n":29,"name":"المعهد النموذجي ساقية الزيت","director":"نزار البهلول","nazer":"سامي عبد المقصود","q1":"أحمد الدرويش","q2":"فوزية التريكي دريرة","email":"Lp722327@gmail.com","landline":"74862710","mobiles":["98430920","28099960"],"type":"lycee"},{"n":30,"name":"المدرسة الإعدادية النموذجية ساقية الزيت","director":"أنور الطياري","nazer":"","q1":"عبد اللطيف الدرويش","q2":"","email":"clp722328@gmail.com","landline":"","mobiles":["53065313","29579143"],"type":"college"},{"n":31,"name":"المدرسة الإعدادية التقنية بجبنيانة","director":"حاتم بنور","nazer":"","q1":"سعيد المسعودي","q2":"","email":"CL722415@gmail.com","landline":"74880425","mobiles":["24481805"],"type":"college"},{"n":32,"name":"م.إ. بجبنيانة","director":"عبد المجيد بن مليك","nazer":"","q1":"","q2":"عبد الرزاق بن عبد الله","email":"C722416@gmail.com","landline":"74880974","mobiles":["24350201","97635664"],"type":"college"},{"n":33,"name":"م.إ. حي الحدائق بجبنيانة","director":"عبد الرزاق المكور","nazer":"","q1":"محمد زعتور","q2":"","email":"Cl722417@gmail.com","landline":"74880044","mobiles":["58372837"],"type":"college"},{"n":34,"name":"معهد 18 جانفي 1952 بجبنيانة","director":"عبد اللطيف بن عيسى","nazer":"محمد النحياني","q1":"بشير بن عبد القادر","q2":"","email":"L722418@gmail.com","landline":"74880040","mobiles":["98918685"],"type":"lycee"},{"n":35,"name":"معهد حزق","director":"طارق بن كريم","nazer":"خالد عقيد","q1":"ميلاد دباش","q2":"","email":"L722421@gmail.com","landline":"74896033","mobiles":["98950448"],"type":"lycee"},{"n":36,"name":"م.إ. باللوزة","director":"جمال العبدلي","nazer":"","q1":"محمد القمري","q2":"","email":"C722422@gmail.com","landline":"74896051","mobiles":["25072899","29881549"],"type":"college"},{"n":37,"name":"م.إ. بالعجانقة جبنيانة","director":"مصطفى شريحة","nazer":"","q1":"حسنة الفرجاني","q2":"","email":"CL722423@gmail.com","landline":"79701026","mobiles":["99252210","92922856"],"type":"college"},{"n":38,"name":"معهد أبو إسحاق الجبنياني بجبنيانة","director":"نجيب قضوم","nazer":"عبد الرزاق المكور","q1":"حسن بن الفقي أحمد","q2":"","email":"Ly722424@gmail.com","landline":"74881571","mobiles":["94614670"],"type":"lycee"},{"n":39,"name":"م.إ. مصطفى حمدي بالعامرة","director":"عمار بن عمار","nazer":"","q1":"محسن الهويدي","q2":"","email":"C722501@gmail.com","landline":"74899301","mobiles":["98956795"],"type":"college"},{"n":40,"name":"معهد العامرة","director":"محمد بن فرح","nazer":"احميد الحاج بريك","q1":"فتحي الشريف","q2":"","email":"Ly722502@gmail.com","landline":"74899333","mobiles":["98775765","29360461"],"type":"lycee"},{"n":41,"name":"المدرسة الإعدادية بالسلام","director":"زهير المسلمي","nazer":"","q1":"","q2":"","email":"C722503@gmail.com","landline":"79701001","mobiles":["98293180","98242345"],"type":"college"},{"n":42,"name":"المدرسة الإعدادية السعادي","director":"كمال الكتاني","nazer":"","q1":"محمد القطيط","q2":"","email":"","landline":"","mobiles":["92049273"],"type":"college"},{"n":43,"name":"المدرسة الإعدادية الحنشة","director":"جمال الجمل","nazer":"","q1":"","q2":"","email":"c722618@gmail.com","landline":"74884714","mobiles":["97461501"],"type":"college"},{"n":44,"name":"معهد الحنشة","director":"أحمد عروس","nazer":"أكرم بن صالح","q1":"السلامي العوادني","q2":"بلقاسم الطاهي","email":"L722619@gmail.com","landline":"74284020","mobiles":["98707935"],"type":"lycee"},{"n":45,"name":"م.إ. الحسين بالحاج خالد بالحنشة","director":"عبد المنعم المنيف","nazer":"","q1":"النوري منصور","q2":"","email":"C722620@gmail.com","landline":"74284304","mobiles":["28465561","99230230"],"type":"college"},{"n":46,"name":"م.إ. بالغرابة","director":"النوري الفتوي","nazer":"","q1":"شكري الغريبي","q2":"","email":"C722621@gmail.com","landline":"74842128","mobiles":["21861870"],"type":"college"},{"n":47,"name":"معهد محمود المسعدي الحنشة","director":"رؤوف الكشو","nazer":"","q1":"كشيدة العشي","q2":"","email":"L722622@gmail.com","landline":"74885088","mobiles":["29864330"],"type":"lycee"},{"n":48,"name":"م.إ. عامر التونسي","director":"علي شعاعة","nazer":"","q1":"صالح بن الفالح","q2":"","email":"C722623@gmail.com","landline":"79740055","mobiles":["97759409"],"type":"college"},{"n":49,"name":"معهد منزل شاكر","director":"إبراهيم بن الحاج علي","nazer":"الهادي ابن العرامي","q1":"منصور حفيظ","q2":"","email":"Lycee722920@gmail.com","landline":"74285066","mobiles":["29653752"],"type":"lycee"},{"n":50,"name":"م.إ. البرمكي بمنزل شاكر","director":"أكرم الحمروني","nazer":"","q1":"ميلاد العامري","q2":"","email":"C722921@gmail.com","landline":"74258648","mobiles":["22957155"],"type":"college"},{"n":51,"name":"م.إ. ابن سينا بمنزل شاكر","director":"فتحي الورشفاني","nazer":"","q1":"منصف الميزوري","q2":"","email":"C722922@gmail.com","landline":"74285350","mobiles":["22624599"],"type":"college"},{"n":52,"name":"م.إ. الفرابي بمنزل شاكر","director":"صالح المهذبي","nazer":"","q1":"حسين المطيراوي","q2":"","email":"C722923@gmail.com","landline":"74285458","mobiles":["29570409","98484432"],"type":"college"},{"n":53,"name":"معهد البرمكي بالعوادة","director":"لطفي الكشو","nazer":"ناصر اللوز","q1":"","q2":"","email":"Lyb722924@gmail.com","landline":"","mobiles":["28520541"],"type":"lycee"},{"n":54,"name":"معهد فرحات حشاد بقرقنة","director":"علي قراجة","nazer":"لمياء حواس","q1":"محمد الشلي","q2":"","email":"L724924@gmail.com","landline":"74481012","mobiles":["22809374"],"type":"lycee"},{"n":55,"name":"م.إ. بقرقنة","director":"مراد غربال","nazer":"","q1":"","q2":"","email":"c724925@gmail.com","landline":"74482012","mobiles":["94317003"],"type":"college"},{"n":56,"name":"المعهد الخاص ابن خلدون جبنيانة","director":"محمد ابن العلواني","nazer":"","q1":"","q2":"","email":"lsp729814@gmail.com","landline":"74880942","mobiles":["28099089"],"type":"private"},{"n":57,"name":"المعهد الخاص الرسالة جبنيانة","director":"ابراهيم الحاج صالح","nazer":"","q1":"","q2":"","email":"brahimbelhadjsalah@gmail.com","landline":"","mobiles":["25669814","94012835"],"type":"private"},{"n":58,"name":"المعهد الخاص الارتقاء بالحنشة","director":"عبد الستار السلامي","nazer":"خليفة جابر","q1":"سيف الدين بن بلقاسم","q2":"","email":"lyceepriveirtika@gmail.com","landline":"","mobiles":["50489021"],"type":"private"},{"n":59,"name":"المدرسة الإعدادية الخاصة الأفق المضيء","director":"خالد زليلة","nazer":"","q1":"","q2":"","email":"luminous.horizon.school@gmail.com","landline":"95650766","mobiles":["22722766"],"type":"private"},{"n":60,"name":"المعهد الخاص منصور الخبور","director":"محمد المكي","nazer":"","q1":"","q2":"","email":"mahjoubigharbi@gmail.com","landline":"","mobiles":["55896571","27896010"],"type":"private"},{"n":61,"name":"المدرسة الدولية الخاصة بصفاقس -نظام فرنسي- EIS","director":"ماهر الفخفاخ","nazer":"","q1":"","q2":"","email":"contact@eisfax.com","landline":"","mobiles":["97468700","24268700"],"type":"private"},{"n":62,"name":"المعهد الخاص \"المجمع التربوي أس-سي-بليس\"","director":"اعتدال الجراية","nazer":"","q1":"","q2":"","email":"schoolingplus828@gmail.com","landline":"","mobiles":["58345445"],"type":"private"},{"n":63,"name":"المعهد الخاص نور الحكمة","director":"الغربي المحجوبي","nazer":"","q1":"","q2":"","email":"mahjoubigharbi@gmail.com","landline":"74885058","mobiles":["97057593"],"type":"private"}],"primary":[{"deleg":"صفاقس الجنوبية","n":1,"school":"الزيتونة الطاهر كريشان","director":"عمارة العنابي","phones":["54585313"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":2,"school":"مركز بن حليمة","director":"عاطف الصويعي","phones":["53813746","29151114"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":3,"school":"مركز علولو","director":"بوقديمة أولاد عبدالله","phones":["29985582"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":4,"school":"مركز القصاص","director":"إلهام بوزيان","phones":["20250984"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":5,"school":"مركز معلى","director":"محمد الأمين ذويب","phones":["29184087"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":6,"school":"مركز الخراط","director":"ناجح اليوسفي","phones":["97284723"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":7,"school":"مركز والي","director":"نعمان المدلل","phones":["23920929","97361523"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":8,"school":"مركز السلامي","director":"عبد السلام الزايدي","phones":["96070255","29255538"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":9,"school":"مركز مكون","director":"محمد الدغباجي عبيدي","phones":["99730744"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":10,"school":"الرشاد الجديدة","director":"خير الدين العوادني","phones":["54626222"],"assistant":"إيمان بن العصري (مكلفة بعمل إداري)","assistantPhones":["22233573"],"note":""},{"deleg":"صفاقس الجنوبية","n":11,"school":"الحرية سوق السيارات","director":"نجاة الهرابي","phones":["25707006"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":12,"school":"بوزيان","director":"عادل العايدي","phones":["44408738"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":13,"school":"طريق العين كم 7","director":"صابر زغدان","phones":["24765666"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":14,"school":"عين الشرفي","director":"صابر دمق","phones":["23068340"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":15,"school":"عيون المايل","director":"محمد الشتيوي","phones":["20235234"],"assistant":"سعيدة سلامة","assistantPhones":["54570577","23047801"],"note":""},{"deleg":"صفاقس الجنوبية","n":16,"school":"مركز بوخذير","director":"خالد الطرابلسي","phones":["29771174"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":17,"school":"سيدي عبد الكافي","director":"النوري المسعودي","phones":["27875488"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":18,"school":"العرفات","director":"هشام بكار","phones":["29585842","98956390"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":19,"school":"مركز الشيخ ابراهيم","director":"حسن بن رياح","phones":["92843893","22823287"],"assistant":"حاتم البرادعي","assistantPhones":["28806552","93308062"],"note":""},{"deleg":"صفاقس الجنوبية","n":20,"school":"سيدي خليفة الطياري","director":"عبد الغفور الطياري","phones":["28872910","98974487"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":21,"school":"عين تركية","director":"محمد أنور معلى","phones":["20499159"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":22,"school":"برشانة","director":"نور الدين بوشليقة","phones":["29152460"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":23,"school":"بومرة","director":"ناجح دمق","phones":["58173939"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":24,"school":"النور كم 17","director":"سميحة المصمودي","phones":["98662631","23113262"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":25,"school":"قرمدة الجديدة","director":"الناصر الحسيني","phones":["29308349"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":26,"school":"الهذيلية","director":"وناس الورشفاني","phones":["23369925"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":27,"school":"حي العوابد","director":"عبد العزيز عطية","phones":["21330171"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"صفاقس الجنوبية","n":28,"school":"م.إ. بالعوابد","director":"فاطمة المعلول","phones":["96954361","28556378"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":1,"school":"الكبال","director":"محمد خريفش","phones":["97755206"],"assistant":"ليليا الوكيل","assistantPhones":["54238059"],"note":""},{"deleg":"ساقية الداير","n":2,"school":"مركز بشة","director":"هاجر الغربي","phones":["94423093","29386982"],"assistant":"محمد المصمودي","assistantPhones":["22817964"],"note":""},{"deleg":"ساقية الداير","n":3,"school":"ساقية الداير","director":"عادل سلام","phones":["92030305"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":4,"school":"الأمانة","director":"محمد الحاج طيب","phones":["98320976","25250155"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":5,"school":"عين بن سلمة","director":"موسى بوجناح","phones":["97964048"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":6,"school":"الحي البلدي","director":"سهيلة بنعزوز بن البحري","phones":["29486116"],"assistant":"","assistantPhones":[],"note":"تكليف بتسيير (26/09)"},{"deleg":"ساقية الداير","n":7,"school":"مركز الحطاب","director":"هشام القرقوري","phones":["23305191","97474324"],"assistant":"بسمة التريكي","assistantPhones":["27636106"],"note":""},{"deleg":"ساقية الداير","n":8,"school":"شارع الرشاد","director":"رضوان البهلول","phones":["22180738","99597856"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":9,"school":"مركز السبعي","director":"محمد بن عباس","phones":["29109553"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":10,"school":"حي بورقيبة 1","director":"لطفي بن محمد الصالح بن ضو","phones":["90358924","97243232"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":11,"school":"حي بورقيبة 2","director":"عبد اللطيف بنحمد (الحجاج سابقا)","phones":["28759736"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":12,"school":"الخليج","director":"رفيق السويسي","phones":["93814032"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":13,"school":"السلطنية كم 7","director":"الهادي بن فالح","phones":["28561581"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":14,"school":"طريق حبانة","director":"المنصف قيدارة","phones":["20134730"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":15,"school":"حي الأمل","director":"محمد ذويب","phones":["20571445"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":16,"school":"شارع سيدي بوعلي","director":"منى العكروت","phones":["25075755","29054447"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":17,"school":"حي ملاك","director":"أيمن المصمودي","phones":["29009212"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":18,"school":"سيدي منصور كم 12","director":"منذر العلوي","phones":["40394407"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":19,"school":"الحي الجديد","director":"حمادي العقيلي","phones":["29587179"],"assistant":"","assistantPhones":[],"note":"تكليف بتسيير (26/09)"},{"deleg":"ساقية الداير","n":20,"school":"طريق السلطنية كم 4","director":"سالم حميدات","phones":["28703555","98375562"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":21,"school":"الصداقة","director":"وهيب الغابري","phones":["24020919"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":22,"school":"البدارنة","director":"عز الدين المذيوب","phones":["98972057"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":23,"school":"السعادي ط السلطنية","director":"فتحي الصويدي","phones":["98831562","29870790"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":24,"school":"المنصورة","director":"سهيلة الصفاقسي","phones":["51682895"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":25,"school":"حي بورقيبة 3","director":"مجدي الغريبي","phones":["98251391","29722366"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الداير","n":26,"school":"القرقوري","director":"نبيل بن مفتاح","phones":["27606612"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الزيت","n":1,"school":"الفوز","director":"عماد البرشاني","phones":["97362048"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الزيت","n":2,"school":"مركز الشيشمة","director":"سميرة السويسي المكور","phones":["29057588","54057673"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الزيت","n":3,"school":"الثريا","director":"حسان الكشو","phones":["28515740","98515740"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الزيت","n":4,"school":"شارع بورقيبة","director":"نرجس الرقيق المساكني","phones":["92801091","99359804"],"assistant":"","assistantPhones":[],"note":"تكليف: محمد الفقي (25235357)"},{"deleg":"ساقية الزيت","n":5,"school":"شارع الزهادي","director":"حسام خياط","phones":["24854633"],"assistant":"فاطمة الزبيدي نجيم","assistantPhones":["29843865"],"note":""},{"deleg":"ساقية الزيت","n":6,"school":"شارع الهادي شاكر","director":"وحيد عبد الناظر","phones":["96765133","25051261"],"assistant":"ناجح واردة","assistantPhones":["29040906","98681882"],"note":""},{"deleg":"ساقية الزيت","n":7,"school":"الوادي","director":"محمد علي عمار","phones":["28534083"],"assistant":"محمد المصمودي","assistantPhones":["95286506","99852785"],"note":""},{"deleg":"ساقية الزيت","n":8,"school":"البشرى","director":"فاطمة العيادي غرسلاوي","phones":["29279622"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الزيت","n":9,"school":"مركز السدرة","director":"محمد الفراتي","phones":["25203870","97635407"],"assistant":"عبد الرؤوف العيادي","assistantPhones":["29452325"],"note":""},{"deleg":"ساقية الزيت","n":10,"school":"شارع الحرية","director":"محمد علي الطريقي","phones":["58137964"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الزيت","n":11,"school":"خالد بن الوليد","director":"فوزي الفخفاخ","phones":["99020661"],"assistant":"هيام شعبان الشاوي","assistantPhones":["27216111"],"note":""},{"deleg":"ساقية الزيت","n":12,"school":"البساتين","director":"عادل القاسمي","phones":["97605689"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الزيت","n":13,"school":"الإصلاح","director":"معز الجرابة","phones":["98973541"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الزيت","n":14,"school":"البدر","director":"ماهر اليوسفي","phones":["52799811","95799801"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الزيت","n":15,"school":"الشيحية الشمالية","director":"محمد بن شهيدة","phones":["96070678","29772158"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الزيت","n":16,"school":"المنارة","director":"راضية سويسي غرس الله","phones":["50453453"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الزيت","n":17,"school":"الإمام سحنون","director":"محمود علولو","phones":["97966077"],"assistant":"ألفة ذويب القلال","assistantPhones":["97307244"],"note":""},{"deleg":"ساقية الزيت","n":18,"school":"المثابرة","director":"بلبابه يوسف","phones":["98589776"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الزيت","n":19,"school":"طريق تونس كم 10","director":"محمد العيادي","phones":["21247359"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الزيت","n":20,"school":"سيدي صالح","director":"","phones":[],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الزيت","n":21,"school":"بئر عباس","director":"عمار الجربوعي","phones":["96073970","25445247"],"assistant":"سهير العيادي النيفر (تكليف)","assistantPhones":["44436667"],"note":""},{"deleg":"ساقية الزيت","n":22,"school":"ابن رشيق","director":"عبد العزيز الرباعي","phones":["29718754","98656495"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"ساقية الزيت","n":23,"school":"الأنس 1","director":"محمد الهادي البراهي","phones":["97567904","29567903"],"assistant":"فاتن المرابط","assistantPhones":["29551730"],"note":""},{"deleg":"ساقية الزيت","n":24,"school":"الأنس 3","director":"سالم العوادني","phones":["96645562"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":1,"school":"02 مارس 34","director":"عبد الوهاب بن محمد","phones":["22869997"],"assistant":"شافية الكيلاني","assistantPhones":["29699597"],"note":""},{"deleg":"الحنشة","n":2,"school":"المنصورة","director":"منية بن المبروك","phones":["51729825","25054928"],"assistant":"كمال فرج","assistantPhones":["24918765"],"note":""},{"deleg":"الحنشة","n":3,"school":"أولاد حمد 1","director":"الحسين الطاهي","phones":["27846065"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":4,"school":"أولاد طاهر","director":"الطاهر بنحمد","phones":["22285569"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":5,"school":"الغرابة","director":"رضا بلشيحة","phones":["22705789"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":6,"school":"الغطاطسة","director":"عمار العوادني","phones":["20386011"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":7,"school":"الغيب","director":"مراد الجمل","phones":["54397196"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":8,"school":"مركز مصباح","director":"رفيق الجمل","phones":["52412140"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":9,"school":"سيدي حسن بلحاج","director":"حمد سليمان","phones":["99978377","95589546"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":10,"school":"بئر الشعبة","director":"الحبيب اللافي","phones":["29566946"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":11,"school":"بئر صالح","director":"نور الدين اسماعيل","phones":["21957144"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":12,"school":"الخلالفة","director":"بوبكر شراد","phones":["24122305","97267862","53267864","29860650"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":13,"school":"هنشير الجيب","director":"محمد قصد الله","phones":["94650080"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":14,"school":"أولاد عمر 1","director":"محمد بلغيث","phones":["99888617"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":15,"school":"سيدي محمد بن عمر","director":"طارق الغريبي","phones":["28175528","98974437"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":16,"school":"البطاطمة","director":"حسن الحاج ابراهيم","phones":["29205435","98571158"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":17,"school":"الخشارمة","director":"رضا القروي","phones":["92614240","50614340"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":18,"school":"وادي الرقة","director":"صلاح الدين سلامة","phones":["29881054"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":19,"school":"النيب","director":"حسن الشاوش","phones":["94258040","27764690"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":20,"school":"دخان المحطة","director":"مراد مسعود","phones":["97268968"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":21,"school":"سيدي غريب","director":"جمال المحجوبي","phones":["98973653"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":22,"school":"الجلابلة","director":"سالم بن صالح","phones":["23557971"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":23,"school":"أولاد حمد 2","director":"ناجح الطاهري","phones":["97323185"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":24,"school":"الحجارة 1","director":"صابر بطاش","phones":["99378946"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":25,"school":"دخان الشرقية","director":"حمادي الجوادي","phones":["28209123","97209317"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":26,"school":"البياضين","director":"محمد الجمل","phones":["95415552","98509214"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":27,"school":"الجمال","director":"صالح اليعقوبي","phones":["24652570"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":28,"school":"أولاد عمر 2","director":"فتحي جليل","phones":["53538333"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":29,"school":"الخلالفة الجنوبية","director":"محمد العروسي","phones":["97228949","29848881"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":30,"school":"الحجارة 2","director":"رمضان الأسود","phones":["29151057"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"الحنشة","n":31,"school":"الطاهرة","director":"محمد بنصر","phones":["97246637"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":1,"school":"02 مارس 34","director":"المنجي الطياري","phones":["28300807","97555862"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":2,"school":"بوثدي","director":"بسمة الدهماني","phones":["21977261","92182016"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":3,"school":"ماجل الدرج","director":"زبيدة الزايدي","phones":["94291090"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":4,"school":"العوادنة","director":"عبد اللطيف العشي","phones":["23426690"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":5,"school":"محسن الجربوعي (الرياض بوجربوع سابقا)","director":"عادل الجربوعي","phones":["28781470"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":6,"school":"فسقية التين","director":"محمد بوشناتة","phones":["98662609"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":7,"school":"بشكة","director":"منيرة الورغي","phones":["29266172"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":8,"school":"بئر الملولي","director":"محمد البية","phones":["96501181"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":9,"school":"الحاج قاسم 2","director":"علي الجربوعي","phones":["21279860"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":10,"school":"المراعية","director":"عبد الرزاق النيفر","phones":["29660476"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":11,"school":"أولاد سعادة","director":"عبد الله المانع","phones":["97958617"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":12,"school":"أولاد يوسف الشمالية","director":"وليد بنبلقاسم","phones":["29887062"],"assistant":"زهرة الكشو","assistantPhones":["29266082"],"note":""},{"deleg":"منزل شاكر","n":13,"school":"تليل الجملة","director":"فتحي العايدي","phones":["52201717","52261117"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":14,"school":"زعيبط","director":"المختار اليوسفي","phones":["53788850","97230406"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":15,"school":"ليماية","director":"حمادي عبد الهادي","phones":["25106812","29182550"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":16,"school":"الشوشة","director":"أنيس الغطاسي","phones":["29043071","26709936"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":17,"school":"العقاير","director":"محمد البريني","phones":["29633806"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":18,"school":"الأعشاش","director":"المنذر بلغيث","phones":["29672845"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":19,"school":"مركز البرمكي","director":"المنصف مرزوق","phones":["29564654"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":20,"school":"القوادرية","director":"البشير حديدي","phones":["29323956"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":21,"school":"البرمكي 2","director":"عبد الرؤوف محجوب","phones":["29364673","29576464"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":22,"school":"بئر بن عياد","director":"علي الزياني","phones":["25396068","97396068"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":23,"school":"الحاج قاسم 1","director":"النوري بنحمد","phones":["98214900","21830844"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":24,"school":"وادي الظل","director":"محمد بن حمودة","phones":["27676910"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":25,"school":"الرحامنة","director":"عمر بنعثمان","phones":["21182339"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":26,"school":"الطيايرة","director":"الجربوعي الزايدي","phones":["97219249"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":27,"school":"بوجربوع الشمالية","director":"منير بن محجوب","phones":["29772629"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":28,"school":"المهاذبة","director":"السامي بنحسن","phones":["92933245","27933245"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":29,"school":"الحاج قاسم 3","director":"عز الدين الحويلدي","phones":["44526395","98530153"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":30,"school":"سوق الأعشاش","director":"أحمد العشي","phones":["29207132"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"منزل شاكر","n":31,"school":"البورة","director":"محمد عباس","phones":["97740696","95326234"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":1,"school":"شارع بورقيبة","director":"خالد الشايب","phones":["29155899"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":2,"school":"02 مارس 34","director":"عبد الرزاق الحامدي","phones":["23416410"],"assistant":"رمضان فؤاد","assistantPhones":["22268243"],"note":""},{"deleg":"جبنيانة","n":3,"school":"حي الحدائق","director":"يوسف بوعافية","phones":["98400040"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":4,"school":"الخزق 1","director":"كمال بن مبارك","phones":["29554465","98589905"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":5,"school":"العجانقة","director":"محمد برق","phones":["28172447","52172639"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":6,"school":"مركز العجمي","director":"مخلوف إسماعيل","phones":["99367281","44762744"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":7,"school":"اللوزة","director":"البحري العبدلي","phones":["92138003"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":8,"school":"أولاد بوسمير","director":"مصطفى بن الحاج","phones":["98229703"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":9,"school":"أولاد يوسف","director":"حاتم بن الباهي","phones":["97960269"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":10,"school":"المجاذبة","director":"رضا فرج","phones":["99552684","29552659"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":11,"school":"دوار اللواتة","director":"المنجي المنصري","phones":["20843737","29390903"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":12,"school":"القلالجة","director":"هشام شهيدة","phones":["29604327"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":13,"school":"أولاد أحمد","director":"صابر بن ابراهيم","phones":["29492181"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":14,"school":"الجبارنة","director":"عمارة حمودة","phones":["99507059"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":15,"school":"بطرية","director":"سلوى شرقية","phones":["97895015"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":16,"school":"أولاد منصر","director":"حسن بابای","phones":["97054290","29054118"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":17,"school":"المناصرية","director":"المنصف الهويدي","phones":["93581157"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":18,"school":"أولاد حميدة","director":"فوزي مبارك","phones":["95836013"],"assistant":"","assistantPhones":[],"note":"تكليف بتسيير (26/09)"},{"deleg":"جبنيانة","n":19,"school":"المقاقشة","director":"أنيس أكرومة","phones":["29701231","98380678"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":20,"school":"البرايلية","director":"التوفيق الحامدي","phones":["96263820","97204614"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":21,"school":"الخزق 2","director":"منير بن عرفة","phones":["22272526"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":22,"school":"سيدي عبد العزيز","director":"الصادق سلطان","phones":["95202521"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":23,"school":"أولاد مجاهد","director":"قايبل السحبي","phones":["97986608"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":24,"school":"الفراسة","director":"معز الدلاجي","phones":["23220119","29611134"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":25,"school":"المساترية","director":"أم السعد الغرشيشي","phones":["29335590","98613302"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"جبنيانة","n":26,"school":"الحمازة","director":"التيجاني عامر","phones":["93971002"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"العامرة","n":1,"school":"بليانة 1","director":"حمادي الشريف","phones":["24086140","97855367"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"العامرة","n":2,"school":"بليانة الشرقية","director":"نور الدين الحسني","phones":["98487575"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"العامرة","n":3,"school":"العامرة 1","director":"لطفي بنسعيد","phones":["97855005"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"العامرة","n":4,"school":"العامرة 2","director":"دليلة بوعزي","phones":["29571043","92541046"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"العامرة","n":5,"school":"الكتانة","director":"محمد الجليدي","phones":["26065011"],"assistant":"سلوى الكتاني","assistantPhones":["99306613","29306737","24810128"],"note":""},{"deleg":"العامرة","n":6,"school":"السعادي طريق المهدية","director":"حسان الفلام","phones":["95701872","28588508","29197172"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"العامرة","n":7,"school":"العوابد","director":"الحبيب صالح","phones":["25305038"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"العامرة","n":8,"school":"أولاد مسلم","director":"معز سعد","phones":["97966378","21250545"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"العامرة","n":9,"school":"المهارة","director":"عمار الساحي","phones":["98971046"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"العامرة","n":10,"school":"عين غزال","director":"محمد أمين شوشان","phones":["29012554"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"العامرة","n":11,"school":"الفي","director":"سمير السعيدي","phones":["22547200"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"العامرة","n":12,"school":"الفيض","director":"محمد شبيل","phones":["99855846"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"العامرة","n":13,"school":"الجواودة","director":"أنور المهيري","phones":["28159301"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"العامرة","n":14,"school":"الغلالبة","director":"بوبكر الطهاري","phones":["29878275"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"العامرة","n":15,"school":"العقاربة","director":"لطفي بلحاج أحمد","phones":["97323574"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"العامرة","n":16,"school":"ذراع بن زياد","director":"رضا بن الفلام","phones":["98965573","22404829"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"العامرة","n":17,"school":"أولاد الغالي","director":"عمار سالم","phones":["99180454"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"قرقنة","n":1,"school":"02 مارس 34 مليتة","director":"نجاة بن سليمان","phones":["29595650","23800482"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"قرقنة","n":2,"school":"رابح الحيلي (النجاة سابقا)","director":"محمد بوزيدة","phones":["99737131"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"قرقنة","n":3,"school":"القراطن","director":"رضا الهداجي","phones":["29320464"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"قرقنة","n":4,"school":"العطايا","director":"سميرة فرحات","phones":["29396319"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"قرقنة","n":5,"school":"الرملة","director":"سنية فرحات","phones":["96705026"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"قرقنة","n":6,"school":"أولاد بوعلي","director":"حسن الميغري","phones":["29190878","96202203","5461188"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"قرقنة","n":7,"school":"أولاد يانق","director":"ألفة خليف","phones":["94270117","25780650","21270432"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"قرقنة","n":8,"school":"أولاد قاسم","director":"معز مقديش","phones":["29772598"],"assistant":"","assistantPhones":[],"note":""},{"deleg":"قرقنة","n":9,"school":"أولاد عز الدين","director":"عادل جابر","phones":["25326653"],"assistant":"","assistantPhones":[],"note":""}],"privatePrimary":[{"name":"التألق","phones":["53452346"],"address":"نهج الرياض طريق منزل شاكر كلم 6,5"},{"name":"سكولينغ","phones":["22626084"],"address":"عدد 54 شارع المنجي سليم ساقية الزيت"},{"name":"النخبة","phones":["54206761"],"address":"طريق الأفران كلم 3.5 قصاص محسونة صفاقس"},{"name":"التوليب","phones":["52968555"],"address":"طريق قرمدة كلم 6.5 صفاقس الجنوبية"},{"name":"الدولية","phones":["56278888"],"address":"نهج النرجس طريق قرمدة كلم 5,4 صفاقس"},{"name":"نوفا سكول","phones":["97758966","23833011"],"address":"نهج غرة ماي طريق قرمدة كلم 5.5 صفاقس"},{"name":"المتفوق","phones":["99595453","21198339"],"address":"عدد 70 شارع الرشاد طريق المهدية كلم 6 ساقية الداير صفاقس"},{"name":"الفردوس","phones":["55839268"],"address":"شارع الإمام سحنون الشيحية"},{"name":"قولدن","phones":["92716666"],"address":"طريق سيدي منصور كلم 4 حي بورقيبة صفاقس"},{"name":"الماس سكول","phones":["24167034"],"address":"طريق قرمدة كم 7 شارع الشهداء صفاقس"},{"name":"لورن تو فلاي","phones":["97154007"],"address":"طريق سيدي منصور كم 4,5 زنقة العش صفاقس"},{"name":"كوبول بليس","phones":["99005185"],"address":"طريق تنيور كم 4,5 بجانب مغازة المصمودي"},{"name":"المنارة","phones":["22598676"],"address":"الحنشة طريق جبنيانة"},{"name":"السفير","phones":["22371144","98944079"],"address":"طريق بوزيان كلم 8"}],"preschool":[{"name":"عائشة","phones":["93239220"],"address":"نهج الرياض طريق منزل شاكر كلم 6,5"},{"name":"نور المعرفة","phones":["98972475"],"address":"عدد 54 شارع المنجي سليم ساقية الزيت"}],"inspection":[{"deleg":"صفاقس الجنوبية","name":"قرمدة عربية","phone":"74402026","clerk":"","clerkPhones":[]},{"deleg":"صفاقس الجنوبية","name":"صفاقس الجنوبية 1 عربية","phone":"74402026","clerk":"","clerkPhones":[]},{"deleg":"صفاقس الجنوبية","name":"صفاقس 4 فرنسية","phone":"74403037","clerk":"","clerkPhones":[]},{"deleg":"ساقية الداير","name":"صفاقس 5 عربية","phone":"74402026","clerk":"","clerkPhones":[]},{"deleg":"ساقية الداير","name":"صفاقس 7 عربية","phone":"74402026","clerk":"","clerkPhones":[]},{"deleg":"ساقية الداير","name":"السلطنية عربية","phone":"74402026","clerk":"نبيل الفندري","clerkPhones":["24449981"]},{"deleg":"ساقية الداير","name":"ساقية الداير فرنسية","phone":"74893078","clerk":"","clerkPhones":[]},{"deleg":"ساقية الداير","name":"سيدي منصور فرنسية","phone":"74402026","clerk":"حنان عبيدة","clerkPhones":["29058068"]},{"deleg":"ساقية الزيت","name":"صفاقس 2 عربية","phone":"74250023","clerk":"","clerkPhones":[]},{"deleg":"ساقية الزيت","name":"صفاقس 9 عربية","phone":"74403037","clerk":"","clerkPhones":[]},{"deleg":"ساقية الزيت","name":"ساقية الزيت 2 عربية","phone":"74250023","clerk":"","clerkPhones":[]},{"deleg":"ساقية الزيت","name":"الشيحية عربية","phone":"74848570","clerk":"","clerkPhones":[]},{"deleg":"ساقية الزيت","name":"صفاقس 1 فرنسية","phone":"74231081","clerk":"جمان سلامة سعد","clerkPhones":["96835836"]},{"deleg":"الحنشة","name":"الحنشة 1 عربية","phone":"74284043","clerk":"","clerkPhones":[]},{"deleg":"الحنشة","name":"الحنشة 2 عربية","phone":"74284043","clerk":"","clerkPhones":[]},{"deleg":"الحنشة","name":"الحنشة 1 فرنسية","phone":"74284043","clerk":"","clerkPhones":[]},{"deleg":"الحنشة","name":"الحنشة 2 فرنسية","phone":"74284043","clerk":"","clerkPhones":[]},{"deleg":"منزل شاكر","name":"منزل شاكر 1 عربية","phone":"74285272","clerk":"","clerkPhones":[]},{"deleg":"منزل شاكر","name":"منزل شاكر 2 عربية","phone":"74285272","clerk":"","clerkPhones":[]},{"deleg":"منزل شاكر","name":"منزل شاكر فرنسية","phone":"74285272","clerk":"","clerkPhones":[]},{"deleg":"جبنيانة","name":"جبنيانة 1 عربية","phone":"74880097","clerk":"الطيب اسماعيل","clerkPhones":["94806950","94439880"]},{"deleg":"جبنيانة","name":"جبنيانة 2 عربية","phone":"74880097","clerk":"","clerkPhones":[]},{"deleg":"جبنيانة","name":"جبنيانة فرنسية","phone":"74880097","clerk":"","clerkPhones":[]},{"deleg":"العامرة","name":"العامرة عربية","phone":"74899117","clerk":"","clerkPhones":[]},{"deleg":"قرقنة","name":"قرقنة","phone":"74482440","clerk":"","clerkPhones":[]}]}</script>
+<script>
+(function(){
+var D = JSON.parse(document.getElementById('data').textContent);
+
+/* ---------- i18n ---------- */
+var T = {
+ fr:{ title:'Annuaire scolaire Sfax 2', sub:'Collèges, lycées et écoles primaires de la région : directeurs, cadres, téléphones et e-mails. Année scolaire 2026/2027.',
+  ph:'Établissement, personne, numéro…', tabs:{sec:'Collèges et lycées',pri:'Écoles primaires',priv:'Privé primaire et préparatoire',insp:'Inspections'},
+  all:'Tous', fav:'Favoris', results:function(n){return n+(n>1?' résultats':' résultat')},
+  dir:'Directeur(trice)', censeur:'Censeur', sg1:'Surveillant général 1', sg2:'Surveillant général 2', asst:'Adjoint(e) / chargé(e) de l\'administration',
+  mobile:'Mobile', fixe:'Fixe', mail:'E-mail', addr:'Adresse', clerk:'Secrétaire', tel:'Téléphone',
+  lycee:'Lycée', college:'Collège', private:'Privé', acting:'Intérim', copy:'Copier', copied:'Copié', copyCard:'Copier la fiche',
+  none:'Aucun résultat', noneSub:'Essayez un autre mot, ou retirez les filtres.', reset:'Réinitialiser', elsewhere:'Autres onglets :',
+  dark:'Sombre', light:'Clair', odd:'Numéro incomplet dans le document source',
+  circ:'Circonscription', preschool:'Classe préparatoire privée', primPriv:'École primaire privée',
+  src1:'Sources : agenda des collèges et lycées de Sfax 2 (version du 23/10/2026) et annuaire téléphonique des écoles primaires (fichier du 10/09/2026).',
+  src2:'Application non officielle, élaborée à partir de ces deux documents. Les mentions « تكليف » (intérim) sont signalées. Vérifiez auprès de l\'administration avant tout usage officiel.',
+  deleg:{'صفاقس الجنوبية':'Sfax Sud','ساقية الداير':'Sakiet Eddaïer','ساقية الزيت':'Sakiet Ezzit','الحنشة':'El Hencha','منزل شاكر':'Menzel Chaker','جبنيانة':'Jebiniana','العامرة':'El Amra','قرقنة':'Kerkennah'},
+  lang:'عربي' },
+ ar:{ title:'دليل المؤسسات التربوية بصفاقس 2', sub:'الإعداديات والمعاهد والمدارس الابتدائية: المديرون والإطار والهواتف والبريد الإلكتروني. السنة الدراسية 2026/2027.',
+  ph:'مؤسسة، شخص، رقم هاتف…', tabs:{sec:'الإعداديات والمعاهد',pri:'المدارس الابتدائية',priv:'الخاص الابتدائي والتحضيري',insp:'دوائر التفقد'},
+  all:'الكل', fav:'المفضلة', results:function(n){return n+' نتيجة'},
+  dir:'المدير', censeur:'الناظر', sg1:'القيم العام 1', sg2:'القيم العام 2', asst:'مساعد المدير / مكلف بعمل إداري',
+  mobile:'الجوال', fixe:'القار', mail:'البريد', addr:'العنوان', clerk:'الكاتب', tel:'الهاتف',
+  lycee:'معهد', college:'إعدادية', private:'خاص', acting:'تكليف', copy:'نسخ', copied:'تم النسخ', copyCard:'نسخ البطاقة',
+  none:'لا توجد نتائج', noneSub:'جرّب كلمة أخرى أو ألغِ المرشحات.', reset:'إعادة الضبط', elsewhere:'في أقسام أخرى:',
+  dark:'داكن', light:'فاتح', odd:'رقم ناقص في الوثيقة الأصلية',
+  circ:'دائرة', preschool:'قسم تحضيري خاص', primPriv:'مدرسة ابتدائية خاصة',
+  src1:'المصادر: أجندا المدارس الإعدادية والمعاهد بصفاقس 2 (نسخة 23/10/2026) ودليل هواتف المدارس الابتدائية (ملف 10/09/2026).',
+  src2:'تطبيق غير رسمي أُعدّ انطلاقا من الوثيقتين. تمّ التنبيه إلى حالات التكليف. يُرجى التثبّت لدى الإدارة قبل أي استعمال رسمي.',
+  deleg:{},
+  lang:'Français' }
+};
+var S = {tab:'sec', q:'', f:'all', fav:false, lang:'fr', theme:null};
+var favs = {};
+function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+try{favs = JSON.parse(lsGet('sfx2-favs')||'{}')||{}}catch(e){favs={}}
+S.lang = lsGet('sfx2-lang')||((navigator.language||'').slice(0,2)==='ar'?'ar':'fr');
+S.theme = lsGet('sfx2-theme');
+var t = function(){return T[S.lang]};
+
+/* ---------- normalisation ---------- */
+function norm(s){
+  return String(s||'').toLowerCase()
+   .replace(/[ً-ٰٟـ‪-‬]/g,'')
+   .replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي')
+   .replace(/[٠-٩]/g,function(c){return String(c.charCodeAt(0)-1632)})
+   .replace(/\s+/g,' ').trim();
+}
+function fmt(p){return /^\d{8}$/.test(p) ? p.replace(/(\d{2})(\d{3})(\d{3})/,'$1 $2 $3') : p}
+
+/* ---------- unified records ---------- */
+var R = [];
+D.secondary.forEach(function(r){
+  var rows=[];
+  var people=[['dir',r.director,[]],['censeur',r.nazer,[]],['sg1',r.q1,[]],['sg2',r.q2,[]]].filter(function(x){return x[1]});
+  var mob = r.mobiles, land = r.landline ? [r.landline] : [];
+  R.push({id:'s'+r.n, tab:'sec', num:r.n, name:r.name, kind:r.type, people:people.map(function(x){return {role:x[0],name:x[1],phones:[]}}),
+    blocks:[mob.length?{lab:'mobile',ph:mob}:null, land.length?{lab:'fixe',ph:land}:null, r.email?{lab:'mail',mail:r.email}:null].filter(Boolean),
+    hay:norm([r.name,r.director,r.nazer,r.q1,r.q2,r.email].join(' ')+' '+mob.concat(land).join(' ')), digits:mob.concat(land).join(' ')});
+});
+D.primary.forEach(function(r){
+  var people=[];
+  if(r.director) people.push({role:'dir',name:r.director,phones:r.phones}); else if(r.phones.length) people.push({role:'dir',name:'',phones:r.phones});
+  if(r.assistant||r.assistantPhones.length) people.push({role:'asst',name:r.assistant,phones:r.assistantPhones});
+  var allp=r.phones.concat(r.assistantPhones);
+  R.push({id:'p'+r.deleg+r.n, tab:'pri', num:r.n, name:r.school, deleg:r.deleg, kind:'', people:people, blocks:[], note:r.note,
+    hay:norm([r.school,r.director,r.assistant,r.deleg,r.note].join(' ')+' '+allp.join(' ')), digits:allp.join(' ')});
+});
+D.privatePrimary.forEach(function(r,i){
+  R.push({id:'v'+i, tab:'priv', num:i+1, name:r.name, kind:'private', sub:'primPriv', people:[], blocks:[{lab:'tel',ph:r.phones},{lab:'addr',text:r.address}],
+    hay:norm(r.name+' '+r.address)+' '+r.phones.join(' '), digits:r.phones.join(' ')});
+});
+D.preschool.forEach(function(r,i){
+  R.push({id:'w'+i, tab:'priv', num:D.privatePrimary.length+i+1, name:r.name, kind:'private', sub:'preschool', people:[], blocks:[{lab:'tel',ph:r.phones},{lab:'addr',text:r.address}],
+    hay:norm(r.name+' '+r.address)+' '+r.phones.join(' '), digits:r.phones.join(' ')});
+});
+D.inspection.forEach(function(r,i){
+  var ppl = r.clerk ? [{role:'clerk',name:r.clerk,phones:r.clerkPhones}] : [];
+  R.push({id:'i'+i, tab:'insp', num:i+1, name:r.name, deleg:r.deleg, kind:'', people:ppl, blocks:[{lab:'tel',ph:[r.phone]}],
+    hay:norm(r.name+' '+r.deleg+' '+r.clerk)+' '+r.phone+' '+r.clerkPhones.join(' '), digits:r.phone+' '+r.clerkPhones.join(' ')});
+});
+
+var TABS=['sec','pri','priv','insp'];
+var DELEGS=['صفاقس الجنوبية','ساقية الداير','ساقية الزيت','الحنشة','منزل شاكر','جبنيانة','العامرة','قرقنة'];
+var KINDS=['college','lycee','private'];
+
+/* ---------- filtering ---------- */
+function matchQ(r,q){
+  if(!q) return true;
+  var nq=norm(q), dq=q.replace(/\s/g,'');
+  var parts=nq.split(' ');
+  return parts.every(function(p){
+    if(/^\d+$/.test(p)) return r.digits.replace(/\s/g,' ').indexOf(p)>-1 || r.digits.replace(/ /g,'').indexOf(p)>-1;
+    return r.hay.indexOf(p)>-1;
+  });
+}
+function inChip(r){
+  if(S.f==='all') return true;
+  if(r.tab==='sec') return r.kind===S.f;
+  if(r.tab==='pri'||r.tab==='insp') return r.deleg===S.f;
+  return true;
+}
+function visible(){
+  return R.filter(function(r){return r.tab===S.tab && matchQ(r,S.q) && inChip(r) && (!S.fav||favs[r.id])});
+}
+
+/* ---------- rendering ---------- */
+var el=function(id){return document.getElementById(id)};
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+var ICON_COPY='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>';
+var ICON_STAR='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>';
+
+function phoneHtml(p){
+  var ok=/^\d{8}$/.test(p);
+  var shown=esc(fmt(p));
+  var inner = ok ? '<a href="tel:+216'+p+'">'+shown+'</a>' : '<span class="t">'+shown+'</span>';
+  return '<span class="ph'+(ok?'':' odd')+'"'+(ok?'':' title="'+esc(t().odd)+'"')+'>'+inner+
+    '<button class="cp" type="button" data-copy="'+esc(p)+'" aria-label="'+esc(t().copy+' '+fmt(p))+'">'+ICON_COPY+'</button></span>';
+}
+function rowHtml(lab,html){return '<li class="row"><span class="lab">'+esc(lab)+'</span><div class="val">'+html+'</div></li>'}
+
+function cardText(r){
+  var L=[r.name];
+  r.people.forEach(function(p){L.push(t()[p.role]+': '+p.name+(p.phones.length?' ('+p.phones.map(fmt).join(' / ')+')':''))});
+  r.blocks.forEach(function(b){ if(b.ph) L.push(t()[b.lab]+': '+b.ph.map(fmt).join(' / ')); else if(b.mail) L.push(t().mail+': '+b.mail); else L.push(t()[b.lab]+': '+b.text)});
+  return L.join('\n');
+}
+
+function cardHtml(r){
+  var tags='';
+  if(r.kind) tags+='<span class="tag '+r.kind+'">'+esc(t()[r.kind])+'</span>';
+  if(r.sub) tags+='<span class="tag">'+esc(t()[r.sub])+'</span>';
+  if(r.deleg){var fr=t().deleg[r.deleg]; tags+='<span class="tag">'+(r.tab==='insp'?esc(t().circ)+' · ':'')+esc(fr?fr+' · '+r.deleg:r.deleg)+'</span>'}
+  if(r.note) tags+='<span class="tag warn" lang="ar" dir="rtl">'+esc(r.note)+'</span>';
+  var rows='';
+  r.people.forEach(function(p){
+    var h='';
+    if(p.name) h+='<span class="pname" lang="ar" dir="rtl">'+esc(p.name)+'</span>';
+    if(p.phones.length) h+='<span class="phs">'+p.phones.map(phoneHtml).join('')+'</span>';
+    rows+=rowHtml(t()[p.role],h);
+  });
+  r.blocks.forEach(function(b){
+    if(b.ph) rows+=rowHtml(t()[b.lab],'<span class="phs">'+b.ph.map(phoneHtml).join('')+'</span>');
+    else if(b.mail) rows+=rowHtml(t().mail,'<span class="mail"><span>'+esc(b.mail)+'</span><button class="cp ph" style="border:1px solid var(--line);border-radius:8px;padding:4px 7px" type="button" data-copy="'+esc(b.mail)+'" aria-label="'+esc(t().copy)+'">'+ICON_COPY+'</button></span>');
+    else rows+=rowHtml(t()[b.lab],'<span class="addr" lang="ar" dir="rtl">'+esc(b.text)+'</span>');
+  });
+  var on=!!favs[r.id];
+  return '<article class="card" data-id="'+r.id+'"><div class="ch"><span class="num">'+r.num+'</span><h3 lang="ar" dir="rtl">'+esc(r.name)+'</h3>'+
+    '<button class="star" type="button" aria-pressed="'+on+'" aria-label="'+esc(t().fav)+'">'+ICON_STAR+'</button></div>'+
+    (tags?'<div class="tags">'+tags+'</div>':'')+'<ul class="rows">'+rows+'</ul>'+
+    '<div class="foot"><button class="copyall" type="button" data-card="'+r.id+'">'+esc(t().copyCard)+'</button></div></article>';
+}
+
+function renderChips(){
+  var h='', box=el('chips');
+  function chip(val,label,count){return '<button class="chip" type="button" data-f="'+val+'" aria-pressed="'+(S.f===val)+'">'+label+(count!=null?'<span class="c">'+count+'</span>':'')+'</button>'}
+  var base=R.filter(function(r){return r.tab===S.tab && matchQ(r,S.q)});
+  if(S.tab==='sec'){
+    h+=chip('all',esc(t().all),base.length);
+    KINDS.forEach(function(k){h+=chip(k,esc(t()[k]),base.filter(function(r){return r.kind===k}).length)});
+  } else if(S.tab==='pri'||S.tab==='insp'){
+    h+=chip('all',esc(t().all),base.length);
+    DELEGS.forEach(function(d){
+      var n=base.filter(function(r){return r.deleg===d}).length;
+      if(S.tab==='insp' && !R.some(function(r){return r.tab==='insp'&&r.deleg===d})) return;
+      var fr=t().deleg[d];
+      h+=chip(d,(fr?'<small>'+esc(fr)+'</small> ':'')+'<span lang="ar">'+esc(d)+'</span>',n);
+    });
+  }
+  box.innerHTML=h; box.hidden=!h;
+}
+
+function renderTabs(){
+  el('tabs').innerHTML=TABS.map(function(k){
+    var n=R.filter(function(r){return r.tab===k && matchQ(r,S.q)}).length;
+    return '<button class="tab" role="tab" type="button" data-tab="'+k+'" aria-selected="'+(S.tab===k)+'">'+esc(t().tabs[k])+'<span class="n'+(n?'':' zero')+'">'+n+'</span></button>';
+  }).join('');
+}
+
+function render(){
+  var L=t();
+  document.documentElement.lang=S.lang; document.documentElement.dir=S.lang==='ar'?'rtl':'ltr';
+  el('h1').textContent=L.title; el('sub').textContent=L.sub; el('q').placeholder=L.ph;
+  el('lang').textContent=L.lang;
+  var dark = S.theme==='dark' || (S.theme!=='light' && matchMedia('(prefers-color-scheme: dark)').matches);
+  el('theme').textContent = dark ? L.light : L.dark;
+  el('favbtn').innerHTML='★ '+esc(L.fav)+' <span class="c">'+Object.keys(favs).filter(function(k){return favs[k]}).length+'</span>';
+  el('favbtn').setAttribute('aria-pressed',S.fav);
+  el('clr').hidden=!S.q;
+  renderTabs(); renderChips();
+  var list=visible();
+  el('count').textContent=L.results(list.length);
+  var g=el('grid');
+  if(list.length){ g.innerHTML=list.map(cardHtml).join(''); }
+  else g.innerHTML='<div class="empty" style="grid-column:1/-1"><b>'+esc(L.none)+'</b>'+esc(L.noneSub)+'<br><button class="chip" type="button" id="rst">'+esc(L.reset)+'</button></div>';
+  // hint: hits in other tabs
+  var hint=el('hint');
+  if(S.q && !list.length){
+    var others=TABS.filter(function(k){return k!==S.tab}).map(function(k){return [k,R.filter(function(r){return r.tab===k&&matchQ(r,S.q)}).length]}).filter(function(x){return x[1]});
+    if(others.length){hint.innerHTML=esc(L.elsewhere)+' '+others.map(function(x){return '<button type="button" data-tab="'+x[0]+'">'+esc(L.tabs[x[0]])+' ('+x[1]+')</button>'}).join(' · ');hint.hidden=false}
+    else hint.hidden=true;
+  } else hint.hidden=true;
+  el('note').innerHTML='<span>'+esc(L.src1)+'</span><span>'+esc(L.src2)+'</span>';
+}
+
+/* ---------- actions ---------- */
+var toastT;
+function toast(msg){var e=el('toast');e.textContent=msg;e.classList.add('on');clearTimeout(toastT);toastT=setTimeout(function(){e.classList.remove('on')},1400)}
+function copy(text){
+  var done=function(){toast(t().copied)};
+  function fallback(){
+    var ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');ta.style.cssText='position:fixed;opacity:0;top:0';
+    document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done()}catch(e){}document.body.removeChild(ta);
+  }
+  try{ navigator.clipboard.writeText(text).then(done,fallback) }catch(e){ fallback() }
+}
+function setTab(k){S.tab=k;S.f='all';try{history.replaceState(null,'','#'+{sec:'secondaire',pri:'primaire',priv:'prive',insp:'inspections'}[k])}catch(e){};render();}
+
+document.addEventListener('click',function(e){
+  var b=e.target.closest('button'); if(!b) return;
+  if(b.dataset.copy){copy(b.dataset.copy);return}
+  if(b.dataset.card){var r=R.filter(function(x){return x.id===b.dataset.card})[0];copy(cardText(r));return}
+  if(b.dataset.tab){setTab(b.dataset.tab);return}
+  if(b.dataset.f){S.f=b.dataset.f;render();return}
+  if(b.classList.contains('star')){var id=b.closest('.card').dataset.id;favs[id]=!favs[id];if(!favs[id])delete favs[id];lsSet('sfx2-favs',JSON.stringify(favs));
+    if(S.fav)render();else{b.setAttribute('aria-pressed',!!favs[id]);el('favbtn').innerHTML='★ '+esc(t().fav)+' <span class="c">'+Object.keys(favs).length+'</span>'}return}
+  if(b.id==='favbtn'){S.fav=!S.fav;render();return}
+  if(b.id==='clr'){S.q='';el('q').value='';render();el('q').focus();return}
+  if(b.id==='rst'){S.q='';S.f='all';S.fav=false;el('q').value='';render();return}
+  if(b.id==='lang'){S.lang=S.lang==='fr'?'ar':'fr';lsSet('sfx2-lang',S.lang);render();return}
+  if(b.id==='theme'){var dark=document.documentElement.dataset.theme==='dark'||(!document.documentElement.dataset.theme&&matchMedia('(prefers-color-scheme: dark)').matches);
+    S.theme=dark?'light':'dark';document.documentElement.dataset.theme=S.theme;lsSet('sfx2-theme',S.theme);render();return}
+});
+var qt;
+el('q').addEventListener('input',function(e){clearTimeout(qt);var v=e.target.value;qt=setTimeout(function(){S.q=v;S.f='all';render()},90)});
+
+/* ---------- boot ---------- */
+if(S.theme==='dark'||S.theme==='light') document.documentElement.dataset.theme=S.theme;
+var h=(location.hash||'').slice(1), map={secondaire:'sec',primaire:'pri',prive:'priv',inspections:'insp'};
+if(map[h]) S.tab=map[h];
+window.addEventListener('hashchange',function(){var m=map[(location.hash||'').slice(1)];if(m&&m!==S.tab){S.tab=m;S.f='all';render()}});
+render();
+})();
+</script>
+
+</body></html>
