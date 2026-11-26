@@ -36,3 +36,7 @@ desktop.ini
 # Fichiers temporaires
 *.tmp
 *.bak
+
+# database
+database/imports
+backend/annuaire_scolaire_api/src/main/resources/db/migration
